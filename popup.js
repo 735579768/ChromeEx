@@ -28,7 +28,44 @@ simpleAjax({
 			arr[1]='没有收录'
 				}
 			}
-	$sel('sl-baidu').innerHTML='<a href="http://'+"https://www.baidu.com/s?wd=site%3A"+hname+'" title="百度收录" target="_blank">'+arr[1]+'</a>';	
+	$sel('sl-baidu').innerHTML='<a href="'+"https://www.baidu.com/s?wd=site%3A"+hname+'" title="百度收录" target="_blank">'+arr[1]+'</a>';	
+				}
+});
+//搜狗收录
+var sgurl='http://www.sogou.com/web?query=site%3A'+hname
+simpleAjax({ 
+			url:sgurl,
+			data:{},
+			type:"get",
+			success:function (da) {
+	var re1=/找到约(.+?)条结果/g;
+	var arr=re1.exec(da);
+	var str='没有收录';
+	if(arr!=null){
+		str='<a href="'+sgurl+'" title="搜狗收录" target="_blank">'+arr[1].replace(/<.*?>/,'')+'</a>';
+		}
+	$sel('sl-sougou').innerHTML=str;	
+				}
+});
+
+//查询360网站收录情况
+simpleAjax({ 
+			url:"http://www.haosou.com/s?q=site%3A"+hname,
+			data:{},
+			type:"get",
+			success:function (da) {
+	var re1=/找到相关结果约([\d\,]+?)个/g;
+	var re2=/找到相关结果数约([\,\d]+?)个/g;
+	var arr=re1.exec(da);
+	//console.log(arr);
+	if(arr===null){
+			arr=re2.exec(da);
+			if(arr===null){
+			arr=new Array();
+			arr[1]='没有收录'
+				}
+			}
+	$sel('sl-360').innerHTML='<a href="'+"http://www.haosou.com/s?q=site%3A"+hname+'" title="360收录" target="_blank">'+arr[1]+'</a>';	
 				}
 });
 
@@ -47,7 +84,7 @@ simpleAjax({
 			var str='<a target="_blank" href="'+uri+'">没有记录</a>';
 			if(arr1!==null){
 			str='<a target="_blank" title="注册时间" href="'+uri+'">'+arr1[1]+'</a>';
-			str+='<a target="_blank" title="更新时间" href="'+uri+'">'+arr2[1]+'</a>';
+			str+='<a target="_blank" title="到期时间" href="'+uri+'">'+arr2[1]+'</a>';
 			str+='<a target="_blank" title="删除时间" href="'+uri+'">'+arr3[1]+'</a>';
 			}
 		
@@ -63,18 +100,18 @@ simpleAjax({
 	url:uri3,
 	type:'POST',
 	success: function(da){
-			var re1=/<table[\s\S]*?域名[\s\S]*?主办单位名称[\s\S]*?主办单位性质[\s\S]*?网站备案\/许可证号[\s\S]*?zbdwmc\_.*?>([\s\S]*?)<\/a>[\s\S]*?<td>([\s\S]*?)<\/td>[\s\S]*?beianhao\_.*?>([\s\S]*?)<\/a>[\s\S]*?webname\_.*?>([\s\S]*?)<\/a>[\s\S]*?(\d{1,4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/g;
+			var re1=/<table[\s\S]*?域名[\s\S]*?主办单位名称[\s\S]*?主办单位性质[\s\S]*?网站备案\/许可证号[\s\S]*?<a href\=\"(zbdwmc.*?)\">([\s\S]*?)<\/a>[\s\S]*?<td>(.*?)<\/td>[\s\S]*?<a href\=\"(beianhao.*?)\">([\s\S]*?)<\/a>[\s\S]*?<a href\=\"(webname.*?)\">([\s\S]*?)<\/a>[\s\S]*?(\d{2,4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/g;
 			var arr1=re1.exec(da);
-			
+			console.log(arr1);
 			//var arr2=re2.exec(da);
 			//var arr3=re3.exec(da);
 			var str='<a target="_blank" href="'+uri+'">没有记录</a>';
 			if(arr1!==null){
-			str='<a target="_blank" title="主办单位名称" href="javascript:;">'+arr1[1]+'</a>';
-			str+='<a target="_blank" title="主办单位性质" href="javascript:;">'+arr1[2]+'</a>';
-			str+='<a target="_blank" title="网站备案/许可证号" href="javascript:;">'+arr1[3]+'</a>';
-			str+='<a target="_blank" title="网站名称" href="javascript:;">'+arr1[4]+'</a>';
-			str+='<a target="_blank" title="审核通过日期" href="javascript:;">'+arr1[5]+'</a>';
+			str='<a target="_blank" title="主办单位名称" href="http://beian.links.cn/'+arr1[1]+'">'+arr1[2]+'</a>';
+			str+='<a target="_blank" title="主办单位性质" href="javascript:;">'+arr1[3]+'</a>';
+			str+='<a target="_blank" title="网站备案/许可证号" href="http://beian.links.cn/'+arr1[4]+'">'+arr1[5]+'</a>';
+			str+='<a target="_blank" title="网站名称" href="http://beian.links.cn/'+arr1[6]+'">'+arr1[7]+'</a>';
+			str+='<a target="_blank" title="审核通过日期" href="javascript:;">'+arr1[8]+'</a>';
 			}
 		
 		$sel('sl-beian').innerHTML=str;			
@@ -93,13 +130,28 @@ simpleAjax({
 		console.log(arr);
 		var str='没有记录';
 		if(arr!==null){
-			str='<a target="_blank" title="服务器IP" href="javascript:;">'+arr[1]+'</a>';;
+			str='<a target="_blank" title="服务器IP" href="javascript:;">'+arr[1]+'</a>';
 			str+='<a target="_blank" title="服务器地址" href="javascript:;">'+arr[2].replace(/\s*/g,'')+'</a>';;
 			}
 		$sel('sl-server').innerHTML=str;
 	}
 });
-//查询物理地址
+
+//查询爱站流量
+var azurl="http://baidurank.aizhan.com/baidu/"+hname+'/';
+simpleAjax({
+	url:azurl,
+	type:'GET',
+	success:function(da){
+			var re=/预计来路[\s\S]*?<[\s\S]*?>([\s\S]*?)<[\s\S]*?>[\s\S]*?IP/;
+			var arr=re.exec(da);
+			var str='<a target="_blank" title="预计流量" href="'+azurl+'">没有记录</a>';
+			if(arr!=null){
+			str='<a target="_blank" title="预计流量" href="'+azurl+'">'+arr[1]+'</a>';					
+			}
+			$sel('sl-aizhan').innerHTML=str;		
+		}
+	});
 
 			
 			
