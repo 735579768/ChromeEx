@@ -92,17 +92,20 @@ simpleAjax({
 	url:uri,
 	type:'POST',
 	success: function(da){
-			var re1=/创建时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
-			var re2=/到期时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
-			var re3=/删除时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
+			var re1=/创建时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
+			var re2=/到期时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
+			var re3=/删除时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})/g;
+			var re4=/删除倒计时[\s\S]*?(\d+?)天/g;
 			var arr1=re1.exec(da);
 			var arr2=re2.exec(da);
 			var arr3=re3.exec(da);
+			var arr4=re4.exec(da);
 			var str='<a target="_blank" href="'+uri+'">查询超时</a>';
 			if(arr1!==null){
 			str='<a target="_blank" title="注册时间" href="'+uri+'">'+arr1[1]+'</a>';
 			str+='<a target="_blank" title="到期时间" href="'+uri+'">'+arr2[1]+'</a>';
 			str+='<a target="_blank" title="删除时间" href="'+uri+'">'+arr3[1]+'</a>';
+			str+='<a target="_blank" title="剩余时间" href="'+uri+'">剩余'+arr4[1]+'天</a>';
 			}
 		
 		$sel('sl-domain').innerHTML=str;			
