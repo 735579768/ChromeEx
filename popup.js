@@ -41,9 +41,9 @@ simpleAjax({
 	success:function(da){
 		var re1=/百度为您找到相关结果约1个/g;
 		var arr=re1.exec(da);
-		var str='<a href="'+bdurl+'" title="百度收录" target="_blank">本页没有收录</a>';
+		var str='<a href="'+bdurl+'" title="百度收录" target="_blank">百度未收录</a>';
 		if(arr!=null){
-			str='<a href="'+bdurl+'" title="百度收录" target="_blank">本页已经收录</a>';
+			str='<a href="'+bdurl+'" title="百度收录" target="_blank">百度已收录</a>';
 			}	
 		$sel('sl-benye').innerHTML=str;		
 		}
