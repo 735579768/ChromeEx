@@ -1,10 +1,12 @@
 
 var  bw = chrome.extension.getBackgroundPage();
+var surl;
 var url;
 var hname='';
 window.onload=function(){
 	chrome.windows.getCurrent(function(window) {
 	chrome.tabs.getSelected(window.id,function(tab) {
+	surl=tab.url;
 	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").split('/')[0];
 	run();
 	});
@@ -31,6 +33,21 @@ simpleAjax({
 	$sel('sl-baidu').innerHTML='<a href="'+"https://www.baidu.com/s?wd=site%3A"+hname+'" title="百度收录" target="_blank">'+arr[1]+'</a>';	
 				}
 });
+//查询当前地址的收录情况
+var bdurl='https://www.baidu.com/s?wd=inurl%3A'+surl
+simpleAjax({
+	url:bdurl,
+	type:'get',
+	success:function(da){
+		var re1=/百度为您找到相关结果约1个/g;
+		var arr=re1.exec(da);
+		var str='<a href="'+bdurl+'" title="百度收录" target="_blank">本页没有收录</a>';
+		if(arr!=null){
+			str='<a href="'+bdurl+'" title="百度收录" target="_blank">本页已经收录</a>';
+			}	
+		$sel('sl-benye').innerHTML=str;		
+		}
+	});
 //搜狗收录
 var sgurl='http://www.sogou.com/web?query=site%3A'+hname
 simpleAjax({ 
@@ -81,7 +98,7 @@ simpleAjax({
 			var arr1=re1.exec(da);
 			var arr2=re2.exec(da);
 			var arr3=re3.exec(da);
-			var str='<a target="_blank" href="'+uri+'">没有记录</a>';
+			var str='<a target="_blank" href="'+uri+'">查询超时</a>';
 			if(arr1!==null){
 			str='<a target="_blank" title="注册时间" href="'+uri+'">'+arr1[1]+'</a>';
 			str+='<a target="_blank" title="到期时间" href="'+uri+'">'+arr2[1]+'</a>';
@@ -130,8 +147,9 @@ simpleAjax({
 		console.log(arr);
 		var str='没有记录';
 		if(arr!==null){
-			str='<a target="_blank" title="服务器IP" href="javascript:;">'+arr[1]+'</a>';
-			str+='<a target="_blank" title="服务器地址" href="javascript:;">'+arr[2].replace(/\s*/g,'')+'</a>';;
+			str='<a target="_blank" title="服务器地址" href="javascript:;">'+arr[2].replace(/\s*/g,'')+'</a>';
+			str+='<a target="_blank" title="服务器IP" href="javascript:;">'+arr[1]+'</a>';
+			
 			}
 		$sel('sl-server').innerHTML=str;
 	}

@@ -1,4 +1,4 @@
-;$(function(){
+//;$(function(){
 //	var gloabalSetPosition;	
 //	var useRightList		= [];
 //
@@ -77,4 +77,4 @@
 //
 //		}
 //	});
-});
+//});

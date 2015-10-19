@@ -1,8 +1,8 @@
 {
-  "name": "网站主机信息",
+  "name": "网站信息查询",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "查询当前网站主机",
+  "description": "查询当前网站的详细信息",
 
 "icons": 
   { 
