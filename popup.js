@@ -128,7 +128,7 @@ simpleAjax({
 			var arr2=re2.exec(da);
 			var arr3=re3.exec(da);
 			var arr4=re4.exec(da);
-			var str='<a target="_blank"  href="javascript:;">没有记录/备案,再次查询</a>';
+			var str='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
 			if(arr1!==null){
 			str='<a target="_blank" title="注册时间" href="'+uri+'">'+arr1[1]+'</a>';
 			str+='<a target="_blank" title="到期时间" href="'+uri+'">'+arr2[1]+'</a>';
@@ -139,14 +139,15 @@ simpleAjax({
 		obj.innerHTML=str;			
 		},
 	error:function(da){
-		obj.innerHTML='<a target="_blank"  href="javascript:;">查询超时/没有备案,再次查询</a>';
+		obj.innerHTML='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
 		}
 	});	
 	},
 
-//查询备案时间
+//查询备案查询
 domainbeian:function(){
 	var obj=$sel('sl-beian');
+	var _t=this;
 	this.initload(obj);
 	var uri3="http://beian.links.cn/beian.asp?domains="+hname;
 	simpleAjax({
@@ -158,19 +159,22 @@ domainbeian:function(){
 				console.log(arr1);
 				//var arr2=re2.exec(da);
 				//var arr3=re3.exec(da);
-				var str='<a target="_blank"  href="javascript:cank.domainbeian();">没有记录,再次查询</a>';
+				var str='<a target="_blank"  href="javascript:;">超时/没有记录</a>';
 				if(arr1!==null){
 				str='<a target="_blank" title="主办单位名称" href="http://beian.links.cn/'+arr1[1]+'">'+arr1[2]+'</a>';
 				str+='<a target="_blank" title="主办单位性质" href="javascript:;">'+arr1[3]+'</a>';
 				str+='<a target="_blank" title="网站备案/许可证号" href="http://beian.links.cn/'+arr1[4]+'">'+arr1[5]+'</a>';
 				str+='<a target="_blank" title="网站名称" href="http://beian.links.cn/'+arr1[6]+'">'+arr1[7]+'</a>';
 				str+='<a target="_blank" title="审核通过日期" href="javascript:;">'+arr1[8]+'</a>';
-				}
+				_t.tdomain(arr1[1]);
+				}else{
+				_t.tdomain('null');	
+					}
 			
 			obj.innerHTML=str;			
 			},
 		error:function(da){
-			obj.innerHTML='<a target="_blank"  href="javascript:cank.domainbeian();">没有记录,再次查询</a>';
+			obj.innerHTML='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
 			}
 		});	
 	},
@@ -236,6 +240,31 @@ tipweb:function(){
 					}
 					str=str.replace(/<span>.*?<\/span>/g,'');
 					obj.innerHTML=str;		
+				}
+			});	
+	},
+//http://beian.links.cn/zbdwmc_%E8%B5%B5%E5%85%8B%E7%AB%8B.html
+tdomain:function(name){
+		if(!name)return;
+		var obj=$sel('sl-tdomain');
+		this.initload(obj);
+		var url="http://beian.links.cn/"+name;
+		simpleAjax({
+			url:url,
+			type:'POST',
+			data:{s:hname},
+			success:function(da){
+					var re=/(<table cellpadding\=1[\s\S]*?>[\s\S]*?<\/table>)/g;
+					var arr=re.exec(da);
+					var str='没有网站';
+					if(arr!=null){
+					str=arr[1];					
+					}
+					str=str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g,'');
+					obj.innerHTML=str;		
+				},
+			error:function(){
+				obj.innerHTML='超时/没有记录';	
 				}
 			});	
 	}

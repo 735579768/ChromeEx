@@ -11,12 +11,12 @@ body{ font:12px/1.7 microsoft yahei Consolas, "Andale Mono", "Lucida Console", "
 .con-wrap{ white-space:nowrap; padding:5px;}
 #wrap-content{ color:#ff0;}
 #wrap-content a{ color:#fff;}
-td{ height:20px; line-height:20px;}
+td{ height:20px; line-height:20px; padding-right:5px;}
 td .loadimg{ padding-left: 20px;background:url("css/loading.gif") center 3px no-repeat; display:inline-block; height:20px; vertical-align:top; width:16px;}
 td a{ display:inline-block;     margin-left: 10px; text-decoration:none;}
-td span{ display:inline-block; overflow:hidden; overflow-y:auto; max-height:200px;}
+td span{ display:block; overflow:hidden; overflow-y:auto; max-height:200px;}
 td a:hover{ text-decoration:underline;}
-td span li{ float:left;}
+td span li{}
 </style>
 </head>
 <body>
@@ -24,19 +24,19 @@ td span li{ float:left;}
 <table>
 
 <tr>
-<td>百度</td>
+<td>百度收录</td>
 <td><span id="sl-baidu"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
-<td>360</td>
+<td>好搜收录</td>
 <td><span id="sl-360"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
-<td>搜狗</td>
+<td>搜狗收录</td>
 <td><span id="sl-sougou"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
-<td>爱站</td>
+<td>爱站流量</td>
 <td><span id="sl-aizhan"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
@@ -44,11 +44,11 @@ td span li{ float:left;}
 <td><span id="sl-benye"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
-<td>域名</td>
+<td>域名时间</td>
 <td><span id="sl-domain"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
-<td>备案</td>
+<td>域名备案</td>
 <td><span id="sl-beian"><i class="loadimg"></i></span></td>
 </tr>
 <tr>
@@ -60,6 +60,13 @@ td span li{ float:left;}
 <td>同IP网站</td>
 <td><span id="sl-tipweb"><i class="loadimg"></i></span></td>
 </tr>
+
+<tr>
+<td>同单位/个人域名</td>
+<td><span id="sl-tdomain"><i class="loadimg"></i></span></td>
+</tr>
+
+
 </table>
 </div>
 </body>
