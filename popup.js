@@ -27,6 +27,7 @@ window.cank={
 initload:function(obj){
 	(obj==null)||(obj.innerHTML='<i class="loadimg"></i></span>');
 	},
+
 //查询百度网站收录情况
 baidushoulu:function(){
 	var obj=$sel('sl-baidu');
@@ -220,6 +221,28 @@ aizhanll:function(){
 					if(arr!=null){
 					str='<a target="_blank" title="预计流量" href="'+azurl+'">'+arr[1]+'</a>';					
 					}
+					obj.innerHTML=str;		
+				}
+			});	
+	},
+
+//同ip网站
+tipweb:function(){
+		var obj=$sel('sl-tipweb');
+		this.initload(obj);
+		var url="http://s.tool.chinaz.com/same";
+		simpleAjax({
+			url:url,
+			type:'POST',
+			data:{s:hname},
+			success:function(da){
+					var re=/<div id\="contenthtml\">([\s\S]*?)<\/div>/g;
+					var arr=re.exec(da);
+					var str='没有网站';
+					if(arr!=null){
+					str=arr[1];					
+					}
+					str=str.replace(/<span>.*?<\/span>/g,'');
 					obj.innerHTML=str;		
 				}
 			});	

@@ -6,7 +6,7 @@
 <script type="text/javascript" src="ajax.js"></script>
 <script type="text/javascript" src="popup.js"></script>
 <style>
-*{ margin:0px; padding:0px;}
+*{ margin:0px; padding:0px; list-style:none;}
 body{ font:12px/1.7 microsoft yahei Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; background:#333; color:#fff;}
 .con-wrap{ white-space:nowrap; padding:5px;}
 #wrap-content{ color:#ff0;}
@@ -14,8 +14,9 @@ body{ font:12px/1.7 microsoft yahei Consolas, "Andale Mono", "Lucida Console", "
 td{ height:20px; line-height:20px;}
 td .loadimg{ padding-left: 20px;background:url("css/loading.gif") center 3px no-repeat; display:inline-block; height:20px; vertical-align:top; width:16px;}
 td a{ display:inline-block;     margin-left: 10px; text-decoration:none;}
-td span{ display:inline-block;}
+td span{ display:inline-block; overflow:hidden; overflow-y:auto; max-height:200px;}
 td a:hover{ text-decoration:underline;}
+td span li{ float:left;}
 </style>
 </head>
 <body>
@@ -53,6 +54,11 @@ td a:hover{ text-decoration:underline;}
 <tr>
 <td>服务器</td>
 <td><span id="sl-server"><i class="loadimg"></i></span></td>
+</tr>
+
+<tr>
+<td>同IP网站</td>
+<td><span id="sl-tipweb"><i class="loadimg"></i></span></td>
 </tr>
 </table>
 </div>
