@@ -11,14 +11,6 @@ window.onload=function(){
 	for(var name in cank){
 		(typeof cank[name]=='function')&&(cank[name]());
 		}
-//	baidushoulu();
-//	currenturl();
-//	sougoushoulu();
-//	shoulu360();
-//	domaintime();
-//	domainbeian();
-//	serverinfo();
-//	aizhanll();
 	});
 	});
 };
