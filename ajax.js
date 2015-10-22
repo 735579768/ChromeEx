@@ -81,6 +81,6 @@
 	a.simpleAjax = c;
 })(window);
 
-function $sel(id){
+window.$sel=function(id){
 	return document.getElementById(id);
 	}
