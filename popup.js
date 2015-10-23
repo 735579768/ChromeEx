@@ -268,13 +268,13 @@ zhanzhangll:function(){
 			success:function(da){
 					var re=/<div class\=\"siteinfo\">[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?<\/div>/;
 					var arr=re.exec(da);
-					var str='<a target="_blank" title="预计流量" href="javascript:;">没有记录</a>';
+					var str='<a target="_blank" title="预计流量" href="'+azurl+'">没有记录</a>';
 					if(arr!=null){
-					str='<a target="_blank" title="预估百度流量" href="javascript:;">'+arr[3]+'</a>';
-					str+='<a target="_blank" title="百度权重" href="javascript:;">'+arr[1]+'</a>';
-					str+='<a target="_blank" title="关键词" href="javascript:;">'+arr[2]+'</a>';
+					str='<a target="_blank" title="预估百度流量" href="'+azurl+';">'+arr[3]+'</a>';
+					str+='<a target="_blank" title="百度权重" href="'+azurl+'">'+arr[1]+'</a>';
+					str+='<a target="_blank" title="关键词" href="'+azurl+'">'+arr[2]+'</a>';
 					
-					str+='<a target="_blank" title="站长排名" href="javascript:;">'+arr[4]+'</a>';					
+					str+='<a target="_blank" title="站长排名" href="'+azurl+'">'+arr[4]+'</a>';					
 					}
 					obj.innerHTML=str;		
 				}
