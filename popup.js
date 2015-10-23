@@ -7,7 +7,7 @@ window.onload=function(){
 	chrome.windows.getCurrent(function(window) {
 	chrome.tabs.getSelected(window.id,function(tab) {
 	surl=tab.url;
-	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").split('/')[0];
+	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.','').split('/')[0];
 	if(!hname){
 		$sel('wrap-content').innerHTML='域名无效';
 		return;	
@@ -176,30 +176,37 @@ domainbeian:function(){
 	var obj=$sel('sl-beian');
 	var _t=this;
 	this.initload(obj);
-	var uri3="http://beian.links.cn/beian.asp?domains="+hname;
+	//var uri3="http://beian.links.cn/beian.asp?domains="+hname;
+	var uri="http://beian.links.cn/domain_"+hname+".html";
 	simpleAjax({
-		url:uri3,
+		url:uri,
 		type:'POST',
 		success: function(da){
-				var re1=/<table[\s\S]*?域名[\s\S]*?主办单位名称[\s\S]*?主办单位性质[\s\S]*?网站备案\/许可证号[\s\S]*?<a href\=\"(zbdwmc.*?)\">([\s\S]*?)<\/a>[\s\S]*?<td>(.*?)<\/td>[\s\S]*?<a href\=\"(beianhao.*?)\">([\s\S]*?)<\/a>[\s\S]*?<a href\=\"(webname.*?)\">([\s\S]*?)<\/a>[\s\S]*?(\d{2,4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/g;
+			//console.log(da);
+				//var re1=/<table[\s\S]*?域名[\s\S]*?主办单位名称[\s\S]*?主办单位性质[\s\S]*?网站备案\/许可证号[\s\S]*?<a href\=\"(zbdwmc.*?)\">([\s\S]*?)<\/a>[\s\S]*?<td>(.*?)<\/td>[\s\S]*?<a href\=\"(beianhao.*?)\">([\s\S]*?)<\/a>[\s\S]*?<a href\=\"(webname.*?)\">([\s\S]*?)<\/a>[\s\S]*?(\d{2,4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/g;
+				var re1=/网站备案信息如下[\s\S]*?主办单位名称：[\s\S]*?<a.*?href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?主办单位性质：([\s\S]*?)<br>[\s\S]*?网站备案\/许可证号：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?网站名称：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?审核时间：(\d{4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/ig;
+				
 				var arr1=re1.exec(da);
-				console.log(arr1);
+				//console.log(arr1);
 				//var arr2=re2.exec(da);
 				//var arr3=re3.exec(da);
-				var str='<a target="_blank"  href="javascript:;">超时/没有记录</a>';
+				var str='<a target="_blank" id="checkbeian"  href="javascript:;">超时/没有记录</a>';
 				if(arr1!==null){
-				str='<a target="_blank" title="主办单位名称" href="http://beian.links.cn/'+arr1[1]+'">'+arr1[2]+'</a>';
+				str='<a target="_blank" title="主办单位名称" href="http://beian.links.cn/'+arr1[6]+'">'+arr1[7]+'</a>';
 				str+='<a target="_blank" title="主办单位性质" href="javascript:;">'+arr1[3]+'</a>';
 				str+='<a target="_blank" title="网站备案/许可证号" href="http://beian.links.cn/'+arr1[4]+'">'+arr1[5]+'</a>';
 				str+='<a target="_blank" title="网站名称" href="http://beian.links.cn/'+arr1[6]+'">'+arr1[7]+'</a>';
 				str+='<a target="_blank" title="审核通过日期" href="javascript:;">'+arr1[8]+'</a>';
 				_t.danwei=arr1[1];
-				//_t._tdomain(arr1[1]);
+				obj.innerHTML=str;
 				}else{
-				//_t._tdomain('null');	
+					obj.innerHTML=str;
+					$sel('checkbeian').onclick=function(){
+						cank.domainbeian.apply(_t);
+						};
 					}
 			
-			obj.innerHTML=str;			
+						
 			},
 		error:function(da){
 			obj.innerHTML='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
