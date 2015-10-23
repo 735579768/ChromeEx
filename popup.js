@@ -8,13 +8,33 @@ window.onload=function(){
 	chrome.tabs.getSelected(window.id,function(tab) {
 	surl=tab.url;
 	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").split('/')[0];
+	if(!hname){
+		$sel('wrap-content').innerHTML='域名无效';
+		return;	
+		}
+	if(!(/(.*?\.)+\w/i.test(hname))){
+		$sel('wrap-content').innerHTML='域名无效';
+		return;		
+		}
 	for(var name in cank){
-		(typeof cank[name]=='function')&&(cank[name]());
+		if(name.indexOf('_')==-1){
+			(typeof cank[name]=='function')&&(cank[name]());
+		}
 		}
 	});
 	});
 };
 window.cank={
+danwei:'',
+init:function(){
+	var _t=this;
+	$sel('checkip').onclick=function(){
+		cank._tipweb.apply(_t);
+		};
+	$sel('checkdomain').onclick=function(){
+		cank._tdomain.apply(_t);
+		};
+	},
 //初始化加载图片
 initload:function(obj){
 	(obj==null)||(obj.innerHTML='<i class="loadimg"></i></span>');
@@ -115,6 +135,7 @@ shoulu360:function(){
 domaintime:function(){
 	var obj=$sel('sl-domain');
 	this.initload(obj);
+	var _t=this;
 var uri="http://tool.chinaz.com/DomainDel/?wd="+hname;
 simpleAjax({
 	url:uri,
@@ -128,15 +149,21 @@ simpleAjax({
 			var arr2=re2.exec(da);
 			var arr3=re3.exec(da);
 			var arr4=re4.exec(da);
-			var str='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
+			var str='<a target="_blank" id="timecs"  href="javascript:;">超时/没有记录</a>';;
 			if(arr1!==null){
 			str='<a target="_blank" title="注册时间" href="'+uri+'">'+arr1[1]+'</a>';
 			str+='<a target="_blank" title="到期时间" href="'+uri+'">'+arr2[1]+'</a>';
 			str+='<a target="_blank" title="删除时间" href="'+uri+'">'+arr3[1]+'</a>';
 			str+='<a target="_blank" title="剩余时间" href="'+uri+'">剩余'+arr4[1]+'天</a>';
+			obj.innerHTML=str;
+			}else{
+				obj.innerHTML=str;
+				$sel('timecs').onclick=function(){
+					cank.domaintime.apply(_t);
+					}
 			}
 		
-		obj.innerHTML=str;			
+					
 		},
 	error:function(da){
 		obj.innerHTML='<a target="_blank"  href="javascript:;">超时/没有记录</a>';;
@@ -166,9 +193,10 @@ domainbeian:function(){
 				str+='<a target="_blank" title="网站备案/许可证号" href="http://beian.links.cn/'+arr1[4]+'">'+arr1[5]+'</a>';
 				str+='<a target="_blank" title="网站名称" href="http://beian.links.cn/'+arr1[6]+'">'+arr1[7]+'</a>';
 				str+='<a target="_blank" title="审核通过日期" href="javascript:;">'+arr1[8]+'</a>';
-				_t.tdomain(arr1[1]);
+				_t.danwei=arr1[1];
+				//_t._tdomain(arr1[1]);
 				}else{
-				_t.tdomain('null');	
+				//_t._tdomain('null');	
 					}
 			
 			obj.innerHTML=str;			
@@ -266,7 +294,7 @@ quchall:function(){
 			});	
 	},
 //同ip网站
-tipweb:function(){
+_tipweb:function(){
 		var obj=$sel('sl-tipweb');
 		this.initload(obj);
 		var url="http://s.tool.chinaz.com/same";
@@ -287,11 +315,11 @@ tipweb:function(){
 			});	
 	},
 //http://beian.links.cn/zbdwmc_%E8%B5%B5%E5%85%8B%E7%AB%8B.html
-tdomain:function(name){
-		if(!name)return;
+_tdomain:function(){
+		if(!this.danwei)return;
 		var obj=$sel('sl-tdomain');
 		this.initload(obj);
-		var url="http://beian.links.cn/"+name;
+		var url="http://beian.links.cn/"+this.danwei;
 		simpleAjax({
 			url:url,
 			type:'POST',
