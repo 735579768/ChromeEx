@@ -222,6 +222,49 @@ aizhanll:function(){
 			});	
 	},
 
+//查询站长流量
+zhanzhangll:function(){
+		var obj=$sel('sl-zhanzhang');
+		this.initload(obj);
+		var azurl="http://mytool.chinaz.com/baidusort.aspx?host="+hname;
+		simpleAjax({
+			url:azurl,
+			type:'GET',
+			success:function(da){
+					var re=/<div class\=\"siteinfo\">[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?(\d+)[\s\S]*?<\/div>/;
+					var arr=re.exec(da);
+					var str='<a target="_blank" title="预计流量" href="javascript:;">没有记录</a>';
+					if(arr!=null){
+					str='<a target="_blank" title="预估百度流量" href="javascript:;">'+arr[3]+'</a>';
+					str+='<a target="_blank" title="百度权重" href="javascript:;">'+arr[1]+'</a>';
+					str+='<a target="_blank" title="关键词" href="javascript:;">'+arr[2]+'</a>';
+					
+					str+='<a target="_blank" title="站长排名" href="javascript:;">'+arr[4]+'</a>';					
+					}
+					obj.innerHTML=str;		
+				}
+			});	
+	},
+//查询爱站流量
+quchall:function(){
+		var obj=$sel('sl-qucha');
+		this.initload(obj);
+		var azurl="http://www.7c.com/baidu/"+hname+'/';
+		simpleAjax({
+			url:azurl,
+			type:'GET',
+			success:function(da){
+					var re=/预计百度大概给该网站的流量为([\s\S]*?)<\/td>/g;
+					var arr=re.exec(da);
+					var str='<a target="_blank" title="预计流量" href="'+azurl+'">没有记录</a>';
+					if(arr!=null){
+					var te=arr[1].replace('/<.*?>/g','');
+					str='<a target="_blank" title="预计流量" href="'+azurl+'">'+te+'</a>';					
+					}
+					obj.innerHTML=str;		
+				}
+			});	
+	},
 //同ip网站
 tipweb:function(){
 		var obj=$sel('sl-tipweb');
