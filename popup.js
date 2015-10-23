@@ -225,7 +225,7 @@ serverinfo:function(){
 			success: function(da){
 				var re=/<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
 				var arr=re.exec(da);
-				console.log(arr);
+				//console.log(arr);
 				var str='没有记录';
 				if(arr!==null){
 					str='<a target="_blank" title="服务器地址" href="javascript:;">'+arr[2].replace(/\s*/g,'')+'</a>';

@@ -7,77 +7,82 @@
 <script type="text/javascript" src="popup.js"></script>
 <style>
 *{ margin:0px; padding:0px; list-style:none;}
+.clie8,
+
 body{ font:12px/1.7 microsoft yahei Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; background:#333; color:#fff;}
+dl{ display:block; min-width:400px;}
+dl:after,
+.cl:after{visibility:hidden;display:block;font-size:0;content:'';clear:both;height:0;}
 .con-wrap{ white-space:nowrap; padding:5px;}
-#wrap-content{ color:#ff0;}
+#wrap-content{ color:#ff0; overflow:auto;}
 #wrap-content a{ color:#fff;}
-td{ height:20px; line-height:20px; padding-right:5px;}
-td .loadimg{ padding-left: 20px;background:url("css/loading.gif") center 3px no-repeat; display:inline-block; height:20px; vertical-align:top; width:16px;}
-td a{ display:inline-block;     margin-left: 10px; text-decoration:none;}
-td span{ display:block; overflow:hidden; overflow-y:auto; max-height:200px;}
-td a:hover{ text-decoration:underline;}
-td span li{}
+dd .loadimg{ padding-left: 20px;background:url("css/loading.gif") center 3px no-repeat; display:inline-block; height:20px; vertical-align:top; width:16px;}
+dd a{ display:inline-block;margin-left: 10px; text-decoration:none;}
+dd span{ display:block;  max-height:200px;}
+dd a:hover{ text-decoration:underline;}
+dd span li{}
+dl dt,dl dd{ height:20px; line-height:20px; display:block; vertical-align:top; padding-right:5px;}
+dl dd{height:auto; margin-left:55px;}
+dl dt{ width:55px; float:left; margin-right:-55px;}
 </style>
 </head>
 <body>
 <div id="wrap-content" class="con-wrap">
-<table>
-
-<tr>
-<td>百度收录</td>
-<td><span id="sl-baidu"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>好搜收录</td>
-<td><span id="sl-360"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>搜狗收录</td>
-<td><span id="sl-sougou"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>爱站流量</td>
-<td><span id="sl-aizhan"><i class="loadimg"></i></span></td>
-</tr>
-
-<tr>
-<td>站长流量</td>
-<td><span id="sl-zhanzhang"><i class="loadimg"></i></span></td>
-</tr>
-
-<tr>
-<td>去查流量</td>
-<td><span id="sl-qucha"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>本页收录</td>
-<td><span id="sl-benye"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>域名时间</td>
-<td><span id="sl-domain"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>域名备案</td>
-<td><span id="sl-beian"><i class="loadimg"></i></span></td>
-</tr>
-<tr>
-<td>服务器</td>
-<td><span id="sl-server"><i class="loadimg"></i></span></td>
-</tr>
-
-<tr>
-<td>同IP网站</td>
-<td><span id="sl-tipweb"><a id="checkip" href="javascript:;">查询</a></span></td>
-</tr>
-
-<tr>
-<td>其它域名</td>
-<td><span id="sl-tdomain"><a id="checkdomain" href="javascript:;">查询</a></span></td>
-</tr>
 
 
-</table>
+<dl>
+<dt>百度收录</dt>
+<dd><span id="sl-baidu"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>好搜收录</dt>
+<dd><span id="sl-360"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>搜狗收录</dt>
+<dd><span id="sl-sougou"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>爱站流量</dt>
+<dd><span id="sl-aizhan"><i class="loadimg"></i></span></dd>
+</dl>
+
+<dl>
+<dt>站长流量</dt>
+<dd><span id="sl-zhanzhang"><i class="loadimg"></i></span></dd>
+</dl>
+
+<dl>
+<dt>去查流量</dt>
+<dd><span id="sl-qucha"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>本页收录</dt>
+<dd><span id="sl-benye"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>域名时间</dt>
+<dd><span id="sl-domain"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>域名备案</dt>
+<dd><span id="sl-beian"><i class="loadimg"></i></span></dd>
+</dl>
+<dl>
+<dt>服务器</dt>
+<dd><span id="sl-server"><i class="loadimg"></i></span></dd>
+</dl>
+
+<dl>
+<dt>同IP网站</dt>
+<dd><span id="sl-tipweb"><a id="checkip" href="javascript:;">查询</a></span></dd>
+</dl>
+
+<dl>
+<dt>其它域名</dt>
+<dd><span id="sl-tdomain"><a id="checkdomain" href="javascript:;">查询</a></span></dd>
+</dl>
+
 </div>
 </body>
 </html>
