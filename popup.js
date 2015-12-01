@@ -7,7 +7,7 @@ window.onload=function(){
 	chrome.windows.getCurrent(function(window) {
 	chrome.tabs.getSelected(window.id,function(tab) {
 	surl=tab.url;
-	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.','').split('/')[0];
+	hname=tab.url.toLowerCase().replace("http://", "").replace("https://", "").split('/')[0];
 	if(!hname){
 		$sel('wrap-content').innerHTML='域名无效';
 		return;	
