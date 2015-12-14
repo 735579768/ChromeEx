@@ -218,7 +218,7 @@ domainbeian:function(){
 serverinfo:function(){
 		var obj=$sel('sl-server');
 		this.initload(obj);
-		var uri4="http://www.ip138.com/ips138.asp?ip="+hname
+		var uri4="http://www.ip138.com/ips138.asp?ip="+hname.replace('www.','');
 		simpleAjax({
 			url:uri4,
 			type:'GET',
