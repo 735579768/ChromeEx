@@ -41,7 +41,7 @@ var checkdata = {
 	sl_sougou: {
 		title:'搜狗收录',
 		url: 'http://www.sogou.com/web?query=site%3A[hostname]',
-		regex: /找到约(.+?)条结果/g,
+		regex: /找到约([\s\S]+?)条结果/g,
 		index: {
 			1: '搜狗收录'
 		}
@@ -155,6 +155,8 @@ window.runCheck= function() {
 						}
 						if(regex_replace){
 							val=val.replace(regex_replace,'');
+						}else{
+							val=val.replace(/<.*?>/,'');
 						}
 						str += '<a target="_blank" href="' + uri + '" title="' + tit + '" target="_blank">' + val + '</a>';
 					}
