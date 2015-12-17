@@ -2,6 +2,7 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
+var nullstr='<b style="color:#f00;">没有记录</b>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
@@ -22,28 +23,33 @@ window.onload = function() {
 //回调对象函数
 window.callobj = {
 	sl_tdomain: function(arr) {
-		var url = 'http://beian.links.cn/' + arr[4];
-		simpleAjax({
-			url: url,
-			type: 'POST',
-			data: {
-				s: hname
-			},
-			success: function(da) {
-				var re = /(<table cellpadding\=1[\s\S]*?>[\s\S]*?<\/table>)/g;
-				var arr = re.exec(da);
-				var str = '没有网站';
-				if (arr != null) {
-					str = arr[1];
+		if (arr) {
+			var url = 'http://beian.links.cn/' + arr[4];
+			simpleAjax({
+				url: url,
+				type: 'POST',
+				data: {
+					s: hname
+				},
+				success: function(da) {
+					var re = /(<table cellpadding\=1[\s\S]*?>[\s\S]*?<\/table>)/g;
+					var arr = re.exec(da);
+					var str = '没有网站';
+					if (arr != null) {
+						str = arr[1];
+					}
+					str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
+					str = str.replace(/<a(.*?)(href\=[\'|\"])(.*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
+					str =str.replace('color=red','');
+					$sel('auto_sl_tdomain').innerHTML = str;
+				},
+				error: function() {
+					$sel('auto_sl_tdomain').innerHTML ='<a href="javascript:;">'+nullstr+'</a>' ;
 				}
-				str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
-				str=str.replace(/<a(.*?)(href\=[\'|\"])(.*?)([\'|\"].*?>)/ig,'<a target="_blank" $1$2http://beian.links.cn/$3$4');
-				$sel('auto_sl_tdomain').innerHTML = str;
-			},
-			error: function() {
-				$sel('auto_sl_tdomain').innerHTML = '没有记录';
-			}
-		});
+			});
+		} else {
+			$sel('auto_sl_tdomain').innerHTML = '<a href="javascript:;">'+nullstr+'</a>';
+		}
 	}
 };
 /**字段格式
@@ -200,7 +206,7 @@ window.runCheck = function() {
 
 					for (var a in index) {
 						var tit = index[a];
-						var val = '<b style="color:#f00;">没有记录</b>';
+						var val = nullstr;
 						try {
 							val = arr[a].replace(/\s+/,'');
 							checkdata[strid]['data']||(checkdata[strid]['data']=new Array());
