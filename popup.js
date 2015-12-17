@@ -19,6 +19,12 @@ window.onload = function() {
 		});
 	});
 };
+//回调对象函数
+window.callobj={
+	sl_tdomain:function(strid){
+		$sel(strid).innerHTML = '没有记录';
+	}
+};
 /**字段格式
  *sl_baidu: {id名字	
  *		title: '百度收录',												//标题	
@@ -29,6 +35,7 @@ window.onload = function() {
  *				},
  *		regex_replace://,												//对结果进行正则替换
  *	    atag:false														//是否需要a标签包裹默认true
+ *		callback:function(){}											//调用自定义回调函数查询
  *	},
  */
 
@@ -144,7 +151,8 @@ var checkdata = {
 			1: '同一个备案号下的其它域名'
 		},
 		regex_replace: /<span>.*?<\/span>/g,
-		atag: false
+		atag: false,
+		callback:callobj.sl_tdomain
 	},
 };
 
@@ -153,6 +161,11 @@ window.runCheck = function() {
 		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
+		if(typeof(checkdata[i]['callback']) === 'function'){
+			checkdata[i]['callback']('auto_' + i);
+			continue;
+		}
+		
 		(function() {
 			var strid = i;
 			var reg = checkdata[i]['regex'];
