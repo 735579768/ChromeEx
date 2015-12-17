@@ -20,9 +20,30 @@ window.onload = function() {
 	});
 };
 //回调对象函数
-window.callobj={
-	sl_tdomain:function(strid){
-		$sel(strid).innerHTML = '没有记录';
+window.callobj = {
+	sl_tdomain: function(arr) {
+		var url = 'http://beian.links.cn/' + arr[4];
+		simpleAjax({
+			url: url,
+			type: 'POST',
+			data: {
+				s: hname
+			},
+			success: function(da) {
+				var re = /(<table cellpadding\=1[\s\S]*?>[\s\S]*?<\/table>)/g;
+				var arr = re.exec(da);
+				var str = '没有网站';
+				if (arr != null) {
+					str = arr[1];
+				}
+				str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
+				str=str.replace(/<a(.*?)(href\=[\'|\"])(.*?)([\'|\"].*?>)/ig,'<a target="_blank" $1$2http://beian.links.cn/$3$4');
+				$sel('auto_sl_tdomain').innerHTML = str;
+			},
+			error: function() {
+				$sel('auto_sl_tdomain').innerHTML = '没有记录';
+			}
+		});
 	}
 };
 /**字段格式
@@ -34,8 +55,9 @@ window.callobj={
  *					1: '百度收录'
  *				},
  *		regex_replace://,												//对结果进行正则替换
- *	    atag:false														//是否需要a标签包裹默认true
- *		callback:function(){}											//调用自定义回调函数查询
+ *	    atag:false,														//是否需要a标签包裹默认true
+ *		callback:function(){},											//调用自定义回调函数再次查询
+ *		nothing:true													//只是添加标签什么事情也不做
  *	},
  */
 
@@ -111,7 +133,8 @@ var checkdata = {
 			5: '网站备案/许可证号',
 			7: '网站名称',
 			8: '审核通过日期'
-		}
+		},
+		callback:callobj.sl_tdomain
 	},
 
 	sl_server: {
@@ -145,14 +168,7 @@ var checkdata = {
 	},
 	sl_tdomain: {
 		title: '其它域名',
-		url: "http://s.tool.chinaz.com/same?s=[hostname]",
-		regex: /<div id\="contenthtml\">([\s\S]*?)<\/div>/g,
-		index: {
-			1: '同一个备案号下的其它域名'
-		},
-		regex_replace: /<span>.*?<\/span>/g,
-		atag: false,
-		callback:callobj.sl_tdomain
+		nothing:true
 	},
 };
 
@@ -161,8 +177,8 @@ window.runCheck = function() {
 		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
-		if(typeof(checkdata[i]['callback']) === 'function'){
-			checkdata[i]['callback']('auto_' + i);
+		
+		if(checkdata[i]['nothing']===true){
 			continue;
 		}
 		
@@ -179,9 +195,12 @@ window.runCheck = function() {
 				success: function(da) {
 					var arr = reg.exec(da);
 					var str = '';
+
+
+
 					for (var a in index) {
 						var tit = index[a];
-						var val = '没有记录';
+						var val = '<b style="color:#f00;">没有记录</b>';
 						try {
 							val = arr[a].replace(/\s+/,'');
 							checkdata[strid]['data']||(checkdata[strid]['data']=new Array());
@@ -203,6 +222,10 @@ window.runCheck = function() {
 						} else {
 							str += '<a target="_blank" href="' + uri + '" title="' + tit + '" target="_blank">' + val + '</a>';
 						}
+					}
+					//调用回调函数
+					if(typeof(checkdata[strid]['callback']) === 'function'){
+						checkdata[strid]['callback'](arr);
 					}
 					$sel('auto_' + strid).innerHTML = str;
 				}
