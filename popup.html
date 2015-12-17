@@ -7,6 +7,15 @@
 <script type="text/javascript" src="popup.js"></script>
 <style>
 *{margin:0px;padding:0px;list-style:none;}
+/*---滚动条默认显示样式--*/
+::-webkit-scrollbar-thumb{background-color:#018EE8;background:rgba(0,0,0,.3);-webkit-border-radius:6px;-moz-border-radius:6px;-ms-border-radius:6px;-o-border-radius:6px;border-radius:6px;}
+/*---鼠标点击滚动条显示样式--*/
+::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.5);height:20px;-webkit-border-radius:2px;}
+/*---滚动条大小--*/
+::-webkit-scrollbar{width:4px;height:4px;}
+/*---滚动框背景样式--*/
+::-webkit-scrollbar-track-piece{background-color:#fff;-webkit-border-radius:0;}
+.cl:after{content:"";visibility:hidden;display:block;font-size:0;content:'';clear:both;height:0;}
 .clie8,body{font:12px/1.7 microsoft yahei Consolas,"Andale Mono","Lucida Console","Lucida Sans Typewriter",Monaco,"Courier New",monospace;background:#333;color:#fff;}
 dl{display:block;min-width:400px;}
 dl:after,.cl:after{visibility:hidden;display:block;font-size:0;content:'';clear:both;height:0;}
@@ -19,8 +28,8 @@ dd .loadimg{padding-left:20px;background:url("css/loading.gif") center 3px no-re
 dd a{display:inline-block;margin-left:10px;text-decoration:none;}
 dd span{display:block;max-height:200px;overflow:auto;}
 dd a:hover{text-decoration:underline;}
-dd span li{float:left;}
-dd span li a{display:inline-block;width:100px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+dd span li{display:block;height: 20px;}
+dd span li a{display:inline-block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
 dl dt,dl dd{height:20px;line-height:20px;display:block;vertical-align:top;padding-right:5px;}
 dl dd{height:auto;margin-left:55px;}
 dl dt{width:55px;float:left;margin-right:-55px;}

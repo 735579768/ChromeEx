@@ -2,7 +2,7 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
-var nullstr='<b style="color:#f00;">没有记录</b>';
+var nullstr='<b style="color:#f00;">无</b>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
@@ -40,7 +40,7 @@ window.callobj = {
 					}
 					str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
 					str = str.replace(/<a(.*?)(href\=[\'|\"])(.*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
-					str =str.replace('color=red','');
+					str =str.replace(/color\=[\'|\"]?red[\'|\"]?/ig,'');
 					$sel('auto_sl_tdomain').innerHTML = str;
 				},
 				error: function() {
@@ -180,7 +180,7 @@ var checkdata = {
 
 window.runCheck = function() {
 	for (var i in checkdata) {
-		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
+		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
 		
@@ -220,7 +220,7 @@ window.runCheck = function() {
 							}
 
 						} catch (e) {
-							console.log(e);
+							//console.log(e);
 						}
 												//是否需要a标签包括
 						if (atag === false) {
