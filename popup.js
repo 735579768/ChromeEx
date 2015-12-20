@@ -53,7 +53,7 @@ window.callobj = {
 	}
 };
 /**字段格式
- *sl_baidu: {id名字	
+ *sl_baidu: {															//id名字	
  *		title: '百度收录',												//标题	
  *		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',			//请求数据的url	
  *		regex: /该网站共有[\s\S]*?>(.+?)<[\s\S]*?个网页|找到相关结果数约([\,\d]+?)个/g,//查询数据的正则	
