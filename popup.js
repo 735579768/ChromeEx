@@ -2,7 +2,7 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
-var nullstr='<b style="color:#f00;">无</b>';
+var nullstr = '<b style="color:#f00;">无</b>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
@@ -40,15 +40,15 @@ window.callobj = {
 					}
 					str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
 					str = str.replace(/<a(.*?)(href\=[\'|\"])([^(//)]*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
-					str =str.replace(/color\=[\'|\"]?red[\'|\"]?/ig,'');
+					str = str.replace(/color\=[\'|\"]?red[\'|\"]?/ig, '');
 					$sel('auto_sl_tdomain').innerHTML = str;
 				},
 				error: function() {
-					$sel('auto_sl_tdomain').innerHTML ='<a href="javascript:;">'+nullstr+'</a>' ;
+					$sel('auto_sl_tdomain').innerHTML = '<a href="javascript:;">' + nullstr + '</a>';
 				}
 			});
 		} else {
-			$sel('auto_sl_tdomain').innerHTML = '<a href="javascript:;">'+nullstr+'</a>';
+			$sel('auto_sl_tdomain').innerHTML = '<a href="javascript:;">' + nullstr + '</a>';
 		}
 	}
 };
@@ -140,7 +140,7 @@ var checkdata = {
 			7: '网站名称',
 			8: '审核通过日期'
 		},
-		callback:callobj.sl_tdomain
+		callback: callobj.sl_tdomain
 	},
 
 	sl_server: {
@@ -174,7 +174,7 @@ var checkdata = {
 	},
 	sl_tdomain: {
 		title: '其它域名',
-		nothing:true
+		nothing: true
 	},
 };
 
@@ -183,11 +183,11 @@ window.runCheck = function() {
 		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
-		
-		if(checkdata[i]['nothing']===true){
+
+		if (checkdata[i]['nothing'] === true) {
 			continue;
 		}
-		
+
 		(function() {
 			var strid = i;
 			var reg = checkdata[i]['regex'];
@@ -208,8 +208,8 @@ window.runCheck = function() {
 						var tit = index[a];
 						var val = nullstr;
 						try {
-							val = arr[a].replace(/\s+/,'');
-							checkdata[strid]['data']||(checkdata[strid]['data']=new Array());
+							val = arr[a].replace(/\s+/, '');
+							checkdata[strid]['data'] || (checkdata[strid]['data'] = new Array());
 							checkdata[strid]['data'][a] = arr[a];
 
 							//是否进行正则处理
@@ -222,7 +222,7 @@ window.runCheck = function() {
 						} catch (e) {
 							//console.log(e);
 						}
-												//是否需要a标签包括
+						//是否需要a标签包括
 						if (atag === false) {
 							str += val;
 						} else {
@@ -230,7 +230,7 @@ window.runCheck = function() {
 						}
 					}
 					//调用回调函数
-					if(typeof(checkdata[strid]['callback']) === 'function'){
+					if (typeof(checkdata[strid]['callback']) === 'function') {
 						checkdata[strid]['callback'](arr);
 					}
 					$sel('auto_' + strid).innerHTML = str;
