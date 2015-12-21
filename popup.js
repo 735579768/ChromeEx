@@ -39,7 +39,7 @@ window.callobj = {
 						str = arr[1];
 					}
 					str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
-					str = str.replace(/<a(.*?)(href\=[\'|\"])(.*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
+					str = str.replace(/<a(.*?)(href\=[\'|\"])([^(//)]*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
 					str =str.replace(/color\=[\'|\"]?red[\'|\"]?/ig,'');
 					$sel('auto_sl_tdomain').innerHTML = str;
 				},
