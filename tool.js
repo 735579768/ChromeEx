@@ -23,23 +23,23 @@ $(function() {
 					$(this).animate({
 							left: sw - width
 						},
-						100,
+						0,
 						function() {});
 				} else {
 					$(this).animate({
 							left: 0
 						},
-						100,
+						0,
 						function() {});
 				}
 			});
 			try{
 			//查询物理地址
 			$.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
-				//var re = /本站主数据：(.+?)</;
-				var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
+				var regex = /本站主数据：(.+?)</;
+				//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
 				var arr = regex.exec(da);
-				if (arr.length > 1) arr = '-->' + arr[2];
+				if (arr.length > 1) arr = '-->' + arr[1];
 				$('#ipaddress').html(arr);
 				//物理地址查询结束
 			});
