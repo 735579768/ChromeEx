@@ -53,10 +53,10 @@ window.callobj = {
 	}
 };
 /**字段格式
- *sl_baidu: {															//id名字	
- *		title: '百度收录',												//标题	
- *		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',			//请求数据的url	
- *		regex: /该网站共有[\s\S]*?>(.+?)<[\s\S]*?个网页|找到相关结果数约([\,\d]+?)个/g,//查询数据的正则	
+ *sl_baidu: {															//id名字
+ *		title: '百度收录',												//标题
+ *		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',			//请求数据的url
+ *		regex: /该网站共有[\s\S]*?>(.+?)<[\s\S]*?个网页|找到相关结果数约([\,\d]+?)个/g,//查询数据的正则
  *		index: {														//正则出结果的数组索引
  *					1: '百度收录'
  *				},
@@ -70,7 +70,7 @@ window.callobj = {
 var checkdata = {
 	sl_baidu: {
 		title: '百度收录',
-		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',
+		url: 'https://www.baidu.com/s?wd=site%3A[hostname]&tn=63090008_1_hao_pg',
 		regex: /(该网站共有|找到相关结果数约)([\s\S]*?)个(网页被百度收录)?/g,
 		index: {
 			2: '百度收录'
