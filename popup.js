@@ -2,7 +2,7 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
-var nullstr = '<b style="color:#f00;" title="请点击扩展重新查询">无</b>';
+var nullstr = '<a href="javascript:;"><b style="color:#f00;" title="请点击扩展重新查询">无</b></a>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
@@ -191,7 +191,7 @@ window.checkinfo = function(i) {
 	checkdata[i]['recheck']++;
 	var obj=document.getElementById('auto_'+i);
 	if(!obj){
-		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
+		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i title="正在查询..." class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
 	}
@@ -247,6 +247,9 @@ window.checkinfo = function(i) {
 					checkdata[strid]['callback'](arr);
 				}
 				$sel('auto_' + strid).innerHTML = str;
+			},
+			error:function(){
+				$sel('auto_' + strid).innerHTML = nullstr;
 			}
 		});
 	})();

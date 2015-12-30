@@ -41,7 +41,7 @@
 			_t.xmlHttp.onreadystatechange = function() {
 				if (_t.xmlHttp.readyState == 4) {
 					_t.result = _t.xmlHttp.responseText
-					if (_t.xmlHttp.status == 200 || _t.xmlHttp.status == 500) {
+					if (_t.xmlHttp.status == 200) {
 						_c.success(_t.result);
 					} else {
 						_c.error(_t.xmlHttp);
