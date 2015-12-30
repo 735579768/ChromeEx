@@ -216,7 +216,7 @@ window.checkinfo = function(i) {
 					//延迟再查询
 					setTimeout(function(){
 						checkinfo(strid);
-					},500)
+					},1000)
 					return false;
 				}
 				var str = '';
