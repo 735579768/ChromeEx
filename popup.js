@@ -70,7 +70,7 @@ window.callobj = {
 var checkdata = {
 	sl_baidu: {
 		title: '百度收录',
-		url: 'https://www.baidu.com/s?wd=site%3A[hostname]&tn=63090008_1_hao_pg',
+		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',
 		regex: /(该网站共有|找到相关结果数约)([\s\S]*?)个(网页被百度收录)?/g,
 		index: {
 			2: '百度收录'
