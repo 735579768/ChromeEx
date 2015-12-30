@@ -16,29 +16,34 @@ $(function() {
 				$(this).remove();
 			});
 			$('#iplocation').mouseover(function(event) {
-				var left=parseInt($(this).css('left'));
-				var width=$(this).outerWidth();
-				var sw=$(window).width();
-				if(left===0){
+				var left = parseInt($(this).css('left'));
+				var width = $(this).outerWidth();
+				var sw = $(window).width();
+				if (left === 0) {
 					$(this).animate({
-						left: sw-width},
-						100, function() {
-					});
-				}else{
+							left: sw - width
+						},
+						100,
+						function() {});
+				} else {
 					$(this).animate({
-						left: 0},
-						100, function() {
-					});
+							left: 0
+						},
+						100,
+						function() {});
 				}
 			});
+			try{
 			//查询物理地址
 			$.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
-				var re = /本站主数据：(.+?)</;
-				var arr = re.exec(da);
-				if (arr.length > 1) arr = '-->' + arr[1];
+				//var re = /本站主数据：(.+?)</;
+				var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
+				var arr = regex.exec(da);
+				if (arr.length > 1) arr = '-->' + arr[2];
 				$('#ipaddress').html(arr);
 				//物理地址查询结束
 			});
+		}catch(e){}
 		}
 	});
 });
