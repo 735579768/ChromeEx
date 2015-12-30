@@ -24,6 +24,7 @@ window.onload = function() {
 				checkdata[i]['recheck']=0;
 				checkinfo(i);
 			};
+			console.log(checkdata);
 		});
 	});
 };
