@@ -9,8 +9,8 @@ window.onload = function() {
 			surl = tab.url;
 			hname = tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.', '').split('/')[0];
 			//取最物一个后缀
-			hname=hname.split('.');
-			hname=hname[hname.length-2]+'.'+hname[hname.length-1]
+			hname = hname.split('.');
+			hname = hname[hname.length - 2] + '.' + hname[hname.length - 1]
 			if (!hname) {
 				$sel('wrap-content').innerHTML = '域名无效';
 				return;
@@ -19,7 +19,11 @@ window.onload = function() {
 				$sel('wrap-content').innerHTML = '域名无效';
 				return;
 			}
-			runCheck();
+			for (var i in checkdata) {
+				//初始化公共属性
+				checkdata[i]['recheck']=0;
+				checkinfo(i);
+			};
 		});
 	});
 };
@@ -69,7 +73,6 @@ window.callobj = {
  *		nothing:true													//只是添加标签什么事情也不做
  *	},
  */
-
 var checkdata = {
 	sl_baidu: {
 		title: '百度收录',
@@ -130,7 +133,7 @@ var checkdata = {
 			2: '创建时间',
 			3: '到期时间',
 			4: '删除时间',
-			1:'域名年龄(近似值)',
+			1: '域名年龄(近似值)',
 			5: '删除倒计时'
 		}
 	},
@@ -181,66 +184,70 @@ var checkdata = {
 		nothing: true
 	},
 };
-
-window.runCheck = function() {
-	for (var i in checkdata) {
+//默认重试查询数据次数
+window.renum=3;
+window.checkinfo = function(i) {
+	checkdata[i]['recheck']++;
+	var obj=document.getElementById('auto_'+i);
+	if(!obj){
 		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
+	}
 
-		if (checkdata[i]['nothing'] === true) {
-			continue;
-		}
-
-		(function() {
-			var strid = i;
-			var reg = checkdata[i]['regex'];
-			var regex_replace = checkdata[i]['regex_replace'];
-			var index = checkdata[i]['index'];
-			var atag = checkdata[i]['atag'];
-			var uri = checkdata[i]['url'].replace('[hostname]', hname);
-			simpleAjax({
-				url: uri,
-				type: 'get',
-				success: function(da) {
-					var arr = reg.exec(da);
-					var str = '';
-
-
-
-					for (var a in index) {
-						var tit = index[a];
-						var val = nullstr;
-						try {
-							val = arr[a].replace(/\s+/, '');
-							checkdata[strid]['data'] || (checkdata[strid]['data'] = new Array());
-							checkdata[strid]['data'][a] = arr[a];
-
-							//是否进行正则处理
-							if (regex_replace) {
-								val = val.replace(regex_replace, '');
-							} else {
-								val = val.replace(/<.*?>/, '');
-							}
-
-						} catch (e) {
-							//console.log(e);
-						}
-						//是否需要a标签包括
-						if (atag === false) {
-							str += val;
-						} else {
-							str += '<a target="_blank" href="' + uri + '" title="' + tit + '" target="_blank">' + val + '</a>';
-						}
-					}
-					//调用回调函数
-					if (typeof(checkdata[strid]['callback']) === 'function') {
-						checkdata[strid]['callback'](arr);
-					}
-					$sel('auto_' + strid).innerHTML = str;
+	if (checkdata[i]['nothing'] === true) {
+		return false;
+	}
+	//把要保留的变量放进闭包里
+	(function() {
+		var strid = i;
+		var reg = checkdata[i]['regex'];
+		var regex_replace = checkdata[i]['regex_replace'];
+		var index = checkdata[i]['index'];
+		var atag = checkdata[i]['atag'];
+		var uri = checkdata[i]['url'].replace('[hostname]', hname);
+		simpleAjax({
+			url: uri,
+			type: 'get',
+			success: function(da) {
+				var arr = reg.exec(da);
+				if(!arr && (checkdata[strid]['recheck'])<renum){
+					checkinfo(strid);
+					return false;
 				}
-			});
-		})();
-	};
+				var str = '';
+				for (var a in index) {
+					var tit = index[a];
+					var val = nullstr;
+					try {
+						val = arr[a].replace(/\s+/, '');
+						checkdata[strid]['data'] || (checkdata[strid]['data'] = new Array());
+						checkdata[strid]['data'][a] = arr[a];
+
+						//是否进行正则处理
+						if (regex_replace) {
+							val = val.replace(regex_replace, '');
+						} else {
+							val = val.replace(/<.*?>/, '');
+						}
+
+					} catch (e) {
+						//console.log(e);
+					}
+					//是否需要a标签包括
+					if (atag === false) {
+						str += val;
+					} else {
+						str += '<a target="_blank" href="' + uri + '" title="' + tit + '" target="_blank">' + val + '</a>';
+					}
+				}
+				//调用回调函数
+				if (typeof(checkdata[strid]['callback']) === 'function') {
+					checkdata[strid]['callback'](arr);
+				}
+				$sel('auto_' + strid).innerHTML = str;
+			}
+		});
+	})();
 
 };
