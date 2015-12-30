@@ -2,12 +2,15 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
-var nullstr = '<b style="color:#f00;">无</b>';
+var nullstr = '<b style="color:#f00;" title="请点击扩展重新查询">无</b>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			surl = tab.url;
 			hname = tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.', '').split('/')[0];
+			//取最物一个后缀
+			hname=hname.split('.');
+			hname=hname[hname.length-2]+'.'+hname[hname.length-1]
 			if (!hname) {
 				$sel('wrap-content').innerHTML = '域名无效';
 				return;
@@ -86,7 +89,7 @@ var checkdata = {
 	},
 	sl_sougou: {
 		title: '搜狗收录',
-		url: 'http://www.sogou.com/web?query=site%3A[hostname]',
+		url: 'http://www.sogou.com/web?query=site%3A[hostname]&pid=sogou-clse-cf9819df265db907',
 		regex: /找到约([\s\S]+?)条结果/g,
 		index: {
 			1: '搜狗收录'
@@ -122,12 +125,13 @@ var checkdata = {
 	sl_domain: {
 		title: '域名时间',
 		url: 'http://tool.chinaz.com/DomainDel/?wd=[hostname]',
-		regex: /创建时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?到期时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?删除时间<\/td>[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?删除倒计时[\s\S]*?(\d+?)天/g,
+		regex: /域名年龄[\s\S]*?(\d+年\d+天)\s\(近似值\)[\s\S]*?创建时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?到期时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?删除时间[\s\S]*?(\d{2,4}\-\d{1,2}\-\d{1,2})[\s\S]*?删除倒计时[\s\S]*?还剩：([\s\S]+?)</g,
 		index: {
-			1: '创建时间',
-			2: '到期时间',
-			3: '删除时间',
-			4: '删除倒计时'
+			2: '创建时间',
+			3: '到期时间',
+			4: '删除时间',
+			1:'域名年龄(近似值)',
+			5: '删除倒计时'
 		}
 	},
 	sl_beian: {
