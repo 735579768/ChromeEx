@@ -2,7 +2,7 @@ var bw = chrome.extension.getBackgroundPage();
 var surl;
 var url;
 var hname = '';
-var nullstr = '<a href="javascript:;"><b style="color:#f00;" title="请点击扩展重新查询">无</b></a>';
+var nullstr = '<b style="color:#f00;" title="请点击扩展重新查询">无</b>';
 window.onload = function() {
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getSelected(window.id, function(tab) {
@@ -213,7 +213,10 @@ window.checkinfo = function(i) {
 			success: function(da) {
 				var arr = reg.exec(da);
 				if(!arr && (checkdata[strid]['recheck'])<renum){
-					checkinfo(strid);
+					//延迟再查询
+					setTimeout(function(){
+						checkinfo(strid);
+					},500)
 					return false;
 				}
 				var str = '';
