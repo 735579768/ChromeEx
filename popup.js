@@ -140,12 +140,16 @@ var checkdata = {
 	},
 	sl_beian: {
 		title: '域名备案',
-		url: 'http://beian.links.cn/domain_[hostname].html',
-		regex: /网站备案信息如下[\s\S]*?主办单位名称：[\s\S]*?<a.*?href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?主办单位性质：([\s\S]*?)<br>[\s\S]*?网站备案\/许可证号：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?网站名称：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?审核时间：(\d{4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/ig,
+		//url: 'http://beian.links.cn/domain_[hostname].html',
+		//regex: /网站备案信息如下[\s\S]*?主办单位名称：[\s\S]*?<a.*?href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?主办单位性质：([\s\S]*?)<br>[\s\S]*?网站备案\/许可证号：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?网站名称：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?审核时间：(\d{4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/ig,
+		url: 'http://beian.links.cn/beian.asp?domains=[hostname]',
+		regex:/网站备案信息如下[\s\S]*?#FFFFFF[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>/gi,
 		index: {
-			3: '主办单位性质',
+			3:'主办单位名称',
+			4: '主办单位性质',
 			5: '网站备案/许可证号',
-			7: '网站名称',
+			6: '网站名称',
+			7:'网站首页网址',
 			8: '审核通过日期'
 		},
 		callback: callobj.sl_tdomain
