@@ -35,14 +35,21 @@ $(function() {
 			});
 			try{
 			//查询物理地址
-			$.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
-				var regex = /本站主数据：(.+?)</;
-				//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
-				var arr = regex.exec(da);
-				if (arr.length > 1) arr = '-->' + arr[1];
-				$('#ipaddress').html(arr);
-				//物理地址查询结束
-			});
+			var surl=window.location.href;
+			if(surl.indexOf('https://')==-1){
+				$.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
+					var regex = /本站主数据：(.+?)</;
+					//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
+					var arr = regex.exec(da);
+					if (arr.length > 1) arr = '-->' + arr[1];
+					$('#ipaddress').html(arr);
+					//物理地址查询结束
+				});
+			}else{
+				console.log(surl+'是加密链接不能查询!');
+			}
+
+
 		}catch(e){}
 		}
 	});
