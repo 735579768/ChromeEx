@@ -8,6 +8,7 @@ window.onload = function() {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			surl = tab.url;
 			hname = tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.', '').split('/')[0];
+			hname = hname.toLowerCase();
 			//取最物一个后缀
 			hname = hname.split('.');
 			//hname = hname[hname.length - 2] + '.' + hname[hname.length - 1]
@@ -25,7 +26,7 @@ window.onload = function() {
 			}
 
 			//双后缀域名
-			var subfix = ['com.cn', 'net.cn', 'org.cn'];
+			var subfix = ['com.cn', 'net.cn', 'org.cn', 'gov.cn'];
 			if (inArray(h2 + '.' + h1, subfix)) {
 				hname = h3 + '.' + h2 + '.' + h1;
 			} else {
