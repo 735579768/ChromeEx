@@ -10,7 +10,27 @@ window.onload = function() {
 			hname = tab.url.toLowerCase().replace("http://", "").replace("https://", "").replace('www.', '').split('/')[0];
 			//取最物一个后缀
 			hname = hname.split('.');
-			hname = hname[hname.length - 2] + '.' + hname[hname.length - 1]
+			//hname = hname[hname.length - 2] + '.' + hname[hname.length - 1]
+			var h1, h2, h3;
+			h1 = hname[hname.length - 1]; //最后一个后缀
+			h2 = hname[hname.length - 2]; //倒数第二个后缀
+			h3 = hname.length - 3 >= 0 && hname[hname.length - 3]; //倒数最三个后缀
+			var inArray = function(search, array) {
+				for (var i in array) {
+					if (array[i] == search) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			//双后缀域名
+			var subfix = ['com.cn', 'net.cn', 'org.cn'];
+			if (inArray(h2 + '.' + h1, subfix)) {
+				hname = h3 + '.' + h2 + '.' + h1;
+			} else {
+				hname = h2 + '.' + h1;
+			}
 			if (!hname) {
 				$sel('wrap-content').innerHTML = '域名无效';
 				return;
@@ -21,7 +41,7 @@ window.onload = function() {
 			}
 			for (var i in checkdata) {
 				//初始化公共属性
-				checkdata[i]['recheck']=0;
+				checkdata[i]['recheck'] = 0;
 				checkinfo(i);
 			};
 			console.log(checkdata);
@@ -143,13 +163,13 @@ var checkdata = {
 		//url: 'http://beian.links.cn/domain_[hostname].html',
 		//regex: /网站备案信息如下[\s\S]*?主办单位名称：[\s\S]*?<a.*?href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?主办单位性质：([\s\S]*?)<br>[\s\S]*?网站备案\/许可证号：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?网站名称：[\s\S]*?<a href\=\"(.*?)\">([\s\S]*?)<\/a>[\s\S]*?审核时间：(\d{4}\/\d{1,2}\/\d{1,2})[\s\S]*?<\/table>/ig,
 		url: 'http://beian.links.cn/beian.asp?domains=[hostname]',
-		regex:/网站备案信息如下[\s\S]*?#FFFFFF[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>/gi,
+		regex: /网站备案信息如下[\s\S]*?#FFFFFF[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>[\s\S]*?<td.*?>([\s\S]*?)<\/td>/gi,
 		index: {
-			3:'主办单位名称',
+			3: '主办单位名称',
 			4: '主办单位性质',
 			5: '网站备案/许可证号',
 			6: '网站名称',
-			7:'网站首页网址',
+			7: '网站首页网址',
 			8: '审核通过日期'
 		},
 		callback: callobj.sl_tdomain
@@ -190,11 +210,11 @@ var checkdata = {
 	},
 };
 //默认重试查询数据次数
-window.renum=3;
+window.renum = 3;
 window.checkinfo = function(i) {
 	checkdata[i]['recheck']++;
-	var obj=document.getElementById('auto_'+i);
-	if(!obj){
+	var obj = document.getElementById('auto_' + i);
+	if (!obj) {
 		var htmlstr = '<dl><dt>' + checkdata[i]['title'] + '</dt><dd><span class="cl" id="auto_' + i + '"><i title="正在查询..." class="loadimg"></i></span></dd></dl>';
 		var strs = $sel('wrap-content');
 		strs.innerHTML += htmlstr;
@@ -216,11 +236,11 @@ window.checkinfo = function(i) {
 			type: 'get',
 			success: function(da) {
 				var arr = reg.exec(da);
-				if(!arr && (checkdata[strid]['recheck'])<renum){
+				if (!arr && (checkdata[strid]['recheck']) < renum) {
 					//延迟再查询
-					setTimeout(function(){
+					setTimeout(function() {
 						checkinfo(strid);
-					},1000)
+					}, 1000)
 					return false;
 				}
 				var str = '';
@@ -255,7 +275,7 @@ window.checkinfo = function(i) {
 				}
 				$sel('auto_' + strid).innerHTML = str;
 			},
-			error:function(){
+			error: function() {
 				$sel('auto_' + strid).innerHTML = nullstr;
 			}
 		});
