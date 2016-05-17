@@ -51,6 +51,11 @@ window.onload = function() {
 };
 //回调对象函数
 window.callobj = {
+	/**
+	 * 域名备案
+	 * @param  {[type]} arr [description]
+	 * @return {[type]}     [description]
+	 */
 	sl_tdomain: function(arr) {
 		if (arr) {
 			var url = 'http://beian.links.cn/' + arr[4];
@@ -68,7 +73,7 @@ window.callobj = {
 						str = arr[1];
 					}
 					str = str.replace(/(bgcolor\=\".*?\")|(style\=\".*?\")|(width\=940)/g, '');
-					str = str.replace(/<a(.*?)(href\=[\'|\"])([^(//)]*?)([\'|\"].*?>)/ig, '<a target="_blank" $1$2http://beian.links.cn/$3$4');
+					str = str.replace(/<a(.*?)(href\=[\'|\"])([^(//)]*?)([\'|\"].*?>)/ig, "<a target=\"_blank\" $1$2http:\/\/beian.links.cn/$3$4");
 					str = str.replace(/color\=[\'|\"]?red[\'|\"]?/ig, '');
 					$sel('auto_sl_tdomain').innerHTML = str;
 				},
@@ -79,7 +84,17 @@ window.callobj = {
 		} else {
 			$sel('auto_sl_tdomain').innerHTML = '<a href="javascript:;">' + nullstr + '</a>';
 		}
+	},
+	/**
+	 * 查同ip域名
+	 * @param  {[type]} arr [description]
+	 * @return {[type]}     [description]
+	 */
+	sl_sameip: function(arr) {
+		var con = arr[1];
+		$sel('auto_sl_sameip').innerHTML = con;
 	}
+
 };
 /**字段格式
  *sl_baidu: {															//id名字
@@ -193,7 +208,8 @@ var checkdata = {
 		index: {
 			1: '同一个ip的网站'
 		},
-		regex_replace: /(<span>.*?<\/span>)|(<\/div>)|(<div.*?>)|(<img.*?>)/g
+		regex_replace: /(<span>.*?<\/span>)|(<\/div>)|(<div.*?>)|(<img.*?>)|(<a.*?>\d+?<\/a>)/g,
+		callback: callobj.sl_sameip
 	},
 	sl_tdomain: {
 		title: '其它域名',
