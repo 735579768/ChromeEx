@@ -189,21 +189,11 @@ var checkdata = {
 	sl_sameip: {
 		title: '同IP网站',
 		url: "http://s.tool.chinaz.com/same?s=[hostname]",
-		regex: /<div id\="contenthtml\">([\s\S]*?)<\/div>/g,
+		regex: /<div class\=\"wrapper mt10\">[\s\S]*?<\/div>([\s\S]*?)<div class\=\"ToolPage clearfix\">/g,
 		index: {
 			1: '同一个ip的网站'
 		},
-		regex_replace: /<span>.*?<\/span>/g
-	},
-	sl_sameip: {
-		title: '同IP网站',
-		url: "http://s.tool.chinaz.com/same?s=[hostname]",
-		regex: /<div id\="contenthtml\">([\s\S]*?)<\/div>/g,
-		index: {
-			1: '同一个ip的网站'
-		},
-		regex_replace: /<span>.*?<\/span>/g,
-		atag: false
+		regex_replace: /(<span>.*?<\/span>)|(<\/div>)|(<div.*?>)|(<img.*?>)/g
 	},
 	sl_tdomain: {
 		title: '其它域名',
