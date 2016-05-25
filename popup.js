@@ -120,11 +120,11 @@ var checkdata = {
 		}
 	},
 	sl_haosou: {
-		title: '好搜流量',
+		title: '360收录',
 		url: "http://www.haosou.com/s?q=site%3A[hostname]",
 		regex: /找到相关结果数?约([\,\d]+?)个/g,
 		index: {
-			1: '预计流量'
+			1: '360流量'
 		}
 	},
 	sl_sougou: {
