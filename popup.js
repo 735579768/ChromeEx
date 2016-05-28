@@ -96,20 +96,20 @@ window.callobj = {
 	}
 
 };
-/**字段格式
- *sl_baidu: {															//id名字
- *		title: '百度收录',												//标题
- *		url: 'https://www.baidu.com/s?wd=site%3A[hostname]',			//请求数据的url
- *		regex: /该网站共有[\s\S]*?>(.+?)<[\s\S]*?个网页|找到相关结果数约([\,\d]+?)个/g,//查询数据的正则
- *		index: {														//正则出结果的数组索引
- *					1: '百度收录'
- *				},
- *		regex_replace://,												//对结果进行正则替换
- *	    atag:false,														//是否需要a标签包裹默认true
- *		callback:function(){},											//调用自定义回调函数再次查询
- *		nothing:true													//只是添加标签什么事情也不做
- *	},
- */
+// //字段格式
+// sl_baidu: { //id名字
+// 		title: '百度收录', //标题
+// 		url: 'https://www.baidu.com/s?wd=site%3A[hostname]', //请求数据的url
+// 		regex: /该网站共有[\s\S]*?>(.+?)<[\s\S]*?个网页|找到相关结果数约([\,\d]+?)个/g, //查询数据的正则
+// 		index: { //正则出结果的数组索引
+// 			1: '百度收录'
+// 		},
+// 		regex_replace: //,												//对结果进行正则替换
+// 			atag: false, //是否需要a标签包裹默认true
+// 		callback: function() {}, //调用自定义回调函数再次查询
+// 		nothing: true //只是添加标签什么事情也不做
+// 	},
+
 var checkdata = {
 	sl_baidu: {
 		title: '百度收录',
