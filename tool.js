@@ -44,7 +44,7 @@ $(function() {
 						if (arr) {
 							if (arr.length > 1) arr = '-->' + arr[1];
 						} else {
-							arr = '没有数据';
+							arr = '-->没有查到物理地址';
 						}
 						$('#ipaddress').html(arr);
 						//物理地址查询结束
