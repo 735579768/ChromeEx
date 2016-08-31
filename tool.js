@@ -36,25 +36,44 @@ $(function() {
 			try {
 				//查询物理地址
 				var surl = window.location.href;
-				if (surl.indexOf('https://') == -1) {
-					$.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
-						var regex = /本站主数据：(.+?)</;
-						//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
-						var arr = regex.exec(da);
-						if (arr) {
-							if (arr.length > 1) arr = '-->' + arr[1];
-						} else {
-							arr = '-->没有查到物理地址';
-						}
-						$('#ipaddress').html(arr);
-						//物理地址查询结束
-					});
-				} else {
-					console.log(surl + '是加密链接不能查询!');
-				}
+				// if (surl.indexOf('https://') == -1) {
+				// $.get("http://www.ip138.com/ips138.asp?ip=" + response.domainToIP, function(da) {
+				// 	var regex = /本站主数据：(.+?)</;
+				// 	//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
+				// 	var arr = regex.exec(da);
+				// 	if (arr) {
+				// 		if (arr.length > 1) arr = '-->' + arr[1];
+				// 	} else {
+				// 		arr = '-->没有查到物理地址';
+				// 	}
+				// 	$('#ipaddress').html(arr);
+				// 	//物理地址查询结束
+				// });
+				// } else {
+				// 	// $('#ipaddress').html(response.domainToIP);
+				// 	console.log(surl + '是加密链接不能查询物理地址!');
+				// }
 
+				//从百度查物理地址
+				// IP地址:&nbsp;222.137.198.139
+				$.get("https://www.baidu.com/s?wd=" + response.domainToIP, function(da) {
+					var regex = /IP地址:&nbsp;(.+?)<\/span>(.*?)\n/;
+					//var regex = /<font color="blue"[\s\S]*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[\s\S]*?<\/font>[\s\S]*?本站主数据：(.+?)</;
+					var arr = regex.exec(da);
+					// console.log(arr);
+					if (arr) {
+						if (arr.length > 1) arr = '-->' + arr[2].replace(' ', '');
+					} else {
+						arr = '-->没有查到物理地址';
+					}
 
-			} catch (e) {}
+					$('#ipaddress').html(arr);
+					//物理地址查询结束
+				});
+
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	});
 });
